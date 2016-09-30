@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "lua-moonmint"
+exit 0
