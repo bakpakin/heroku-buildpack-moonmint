@@ -20,17 +20,9 @@ export_env_dir() {
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
 
 cd $BUILD_DIR
-
-# From the luarocks website
-# Do I need sudo for bootstrap? Do I need bootstrap directory?
-echo "-----> Fetching luarocks..."
-wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
-tar zxpf luarocks-2.4.0.tar.gz
-cd luarocks-2.4.0
-./configure; make bootstrap
-cd ..
 
 # Get LuaJIT
 # Do I need sudo for install? Set up install directory?
@@ -39,6 +31,15 @@ wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
 tar zxf LuaJIT-2.0.4.tar.gz
 cd LuaJIT-2.0.4
 make && make install
+cd ..
+
+# From the luarocks website
+# Do I need sudo for bootstrap? Do I need bootstrap directory?
+echo "-----> Fetching luarocks..."
+wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
+tar zxpf luarocks-2.4.0.tar.gz
+cd luarocks-2.4.0
+./configure; make bootstrap
 cd ..
 
 # Install moonmint and openssl
