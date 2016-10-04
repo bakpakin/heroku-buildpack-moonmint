@@ -2,3 +2,5 @@
 
 set -e
 set -o pipefail
+
+export PATH=/app/local/bin:$PATH
