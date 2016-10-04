@@ -1,0 +1,11 @@
+rock_manifest = {
+   ["bkopenssl-0.0.0-1.rockspec"] = "921fed2e260d32331ee393d160f70c04",
+   doc = {
+      LICENSE = "812b618ca15555178643425a6ee34a6d",
+      ["README.md"] = "e740b3ce9bf9d4e2e1f75ef6c82502d4",
+      ["STATE.md"] = "6a70355a15f0e88f8208677824819ce6"
+   },
+   lib = {
+      ["openssl.so"] = "fa2a51e4a9fd7b8dc32c57af3364ddec"
+   }
+}
