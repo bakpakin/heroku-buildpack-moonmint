@@ -18,7 +18,7 @@ cd $BUILD_DIR
 # Create bin and add it to the PATH
 mkdir -p bin
 mkdir -p include
-PATH=$(cd bin; pwd):$PATH
+export PATH=$(cd bin; pwd):$PATH
 
 # Get LuaJIT
 # Do I need sudo for install? Set up install directory?
