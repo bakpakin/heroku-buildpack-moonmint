@@ -35,8 +35,8 @@ echo "-----> Fetching LuaJIT..."
 wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
 tar zxf LuaJIT-2.0.4.tar.gz
 pushd LuaJIT-2.0.4
-make amalg
-make install PREFIX="$BUILD_DIR"
+make
+make install PREFIX="${BUILD_DIR%/}"
 popd
 rm -rf LuaJIT-2.0.4
 
@@ -46,7 +46,7 @@ echo "-----> Fetching luarocks..."
 wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
 tar zxpf luarocks-2.4.0.tar.gz
 pushd luarocks-2.4.0
-./configure --lua-suffix="jit" --prefix="$BUILD_DIR" --with-lua-include="$BUILD_DIR/include/luajit-2.0"
+./configure --lua-suffix="jit" --prefix="${BUILD_DIR%/}" --with-lua-include="${BUILD_DIR%/}/include/luajit-2.0"
 make build
 make install
 popd
@@ -56,7 +56,7 @@ popd
 # cp -r $BUILD_DIR/include $CACHE_DIR/include
 
 # Install moonmint and openssl
-$BUILD_DIR/bin/luarocks install moonmint
-$BUILD_DIR/bin/luarocks install openssl
+${BUILD_DIR%/}/bin/luarocks install moonmint
+${BUILD_DIR%/}/bin/luarocks install openssl
 
 # TODO: run luarocks make if there is a rockspecs file.
