@@ -29,11 +29,11 @@ local function add_files_to_server(refresh, rockfiles, server, upload_server)
    assert(type(rockfiles) == "table")
    assert(type(server) == "string")
    assert(type(upload_server) == "table" or not upload_server)
-   
+
    local download_url, login_url = cache.get_server_urls(server, upload_server)
    local at = fs.current_dir()
    local refresh_fn = refresh and cache.refresh_local_cache or cache.split_server_url
-   
+
    local local_cache, protocol, server_path, user, password = refresh_fn(server, download_url, cfg.upload_user, cfg.upload_password)
    if not local_cache then
       return nil, protocol
@@ -41,14 +41,14 @@ local function add_files_to_server(refresh, rockfiles, server, upload_server)
    if protocol == "file" then
       return nil, "Server "..server.." is not recognized, check your configuration."
    end
-   
+
    if not login_url then
       login_url = protocol.."://"..server_path
    end
-   
+
    local ok, err = fs.change_dir(at)
    if not ok then return nil, err end
-   
+
    local files = {}
    for _, rockfile in ipairs(rockfiles) do
       if fs.exists(rockfile) then
@@ -69,9 +69,9 @@ local function add_files_to_server(refresh, rockfiles, server, upload_server)
 
    util.printout("Updating manifest...")
    manif.make_manifest(local_cache, "one", true)
-   
+
    manif.zip_manifests()
-   
+
    util.printout("Updating index.html...")
    index.make_index(local_cache)
 
