@@ -7,7 +7,6 @@ set -o pipefail
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
-CACHED=yes
 
 # Unload cache
 mkdir -p $CACHE_DIR
@@ -22,56 +21,39 @@ export PATH=$(cd bin; pwd):$PATH
 
 # Get LuaJIT
 # Do I need sudo for install? Set up install directory?
-if [ -f ${BUILD_DIR%/}/bin/luajit ]; then
-    echo "-----> LuaJIT cached."
-else
-    echo "-----> Fetching LuaJIT..."
-    CACHED=no
-    wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
-    tar zxf LuaJIT-2.0.4.tar.gz
-    pushd LuaJIT-2.0.4
-    make
-    make install PREFIX="${BUILD_DIR%/}"
-    popd
-    rm -rf LuaJIT-2.0.4
-fi
+echo "-----> Fetching LuaJIT..."
+wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
+tar zxf LuaJIT-2.0.4.tar.gz
+pushd LuaJIT-2.0.4
+make
+make install PREFIX="${BUILD_DIR%/}"
+popd
+rm -rf LuaJIT-2.0.4
 
 # From the luarocks website
-if [ -f ${BUILD_DIR%/}/bin/luarocks ]; then
-    echo "-----> Luarocks cached."
-else
-    echo "-----> Fetching luarocks..."
-    CACHED=no
-    wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
-    tar zxpf luarocks-2.4.0.tar.gz
-    pushd luarocks-2.4.0
-    ./configure --lua-suffix="jit" --prefix="${BUILD_DIR%/}" --with-lua-include="${BUILD_DIR%/}/include/luajit-2.0"
-    make build
-    make install
-    popd
-fi
+echo "-----> Fetching luarocks..."
+CACHED=no
+wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
+tar zxpf luarocks-2.4.0.tar.gz
+pushd luarocks-2.4.0
+./configure --lua-suffix="jit" --prefix="${BUILD_DIR%/}" --with-lua-include="${BUILD_DIR%/}/include/luajit-2.0"
+make build
+make install
+popd
 
 # Get Cmake
-if [ -f ${BUILD_DIR%/}/bin/cmake ]; then
-    echo "-----> CMake cached."
-else
-    echo "-----> Fetching CMake..."
-    CACHED=no
-    wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
-    tar zxpf cmake-3.6.2.tar.gz
-    pushd cmake-3.6.2
-    ./bootstrap --prefix="${BUILD_DIR%/}"
-    make
-    make install
-    popd
-fi
+echo "-----> Fetching CMake..."
+CACHED=no
+wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
+tar zxpf cmake-3.6.2.tar.gz
+pushd cmake-3.6.2
+./bootstrap --prefix="${BUILD_DIR%/}"
+make
+make install
+popd
 
 # Install moonmint
 ${BUILD_DIR%/}/bin/luarocks install --server=http://luarocks.org/dev moonmint
 
-# Cache everything
-if [ $CACHED = no ]; then
-    cp -r ${BUILD_DIR%/} ${CACHE_DIR%/}
-fi
-
-luarocks path --bin
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+luarocks path --bin > $DIR/../.profile.d/luarocks.sh
