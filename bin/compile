@@ -73,3 +73,5 @@ ${BUILD_DIR%/}/bin/luarocks install --server=http://luarocks.org/dev moonmint
 if [ $CACHED = no ]; then
     cp -r ${BUILD_DIR%/} ${CACHE_DIR%/}
 fi
+
+luarocks path --bin
