@@ -24,6 +24,10 @@ ENV_DIR=$3
 
 cd $BUILD_DIR
 
+# Create bin and add it to the PATH
+mkdir -p bin
+PATH=$(cd bin; pwd):$PATH
+
 # Get LuaJIT
 # Do I need sudo for install? Set up install directory?
 echo "-----> Fetching LuaJIT..."
@@ -31,7 +35,9 @@ wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
 tar zxf LuaJIT-2.0.4.tar.gz
 cd LuaJIT-2.0.4
 make amalg
+cp luajit $BUILD_DIR/bin
 cd ..
+rm -rf LuaJIT-2.0.4
 
 # From the luarocks website
 # Do I need sudo for bootstrap? Do I need bootstrap directory?
@@ -39,9 +45,12 @@ echo "-----> Fetching luarocks..."
 wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
 tar zxpf luarocks-2.4.0.tar.gz
 cd luarocks-2.4.0
-./configure; make bootstrap
+./configure --lua-suffix="jit" --with-lua="$BUILD_DIR/bin/luajit"
+make bootstrap
 cd ..
 
 # Install moonmint and openssl
-luarocks install moonmint
-luarocks install openssl
+$BUILD_DIR/bin/luarocks install moonmint
+$BUILD_DIR/bin/luarocks install openssl
+
+# TODO: run luarocks make if there is a rockspecs file.
