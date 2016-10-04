@@ -56,7 +56,7 @@ popd
 # cp -r $BUILD_DIR/include $CACHE_DIR/include
 
 # Install moonmint and openssl
-${BUILD_DIR%/}/bin/luarocks install moonmint
+${BUILD_DIR%/}/bin/luarocks install --server=http://luarocks.org/dev moonmint
 ${BUILD_DIR%/}/bin/luarocks install openssl
 
 # TODO: run luarocks make if there is a rockspecs file.
