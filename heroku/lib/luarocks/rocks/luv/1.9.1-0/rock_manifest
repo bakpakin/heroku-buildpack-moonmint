@@ -1,0 +1,11 @@
+rock_manifest = {
+   doc = {
+      ["LICENSE.txt"] = "3b83ef96387f14655fc854ddc3c6bd57",
+      ["README.md"] = "fd6b1e2a7e726e3c28e5fa0efa46f34c",
+      ["docs.md"] = "fb5b890da619f584b9ec290b830e0dcc"
+   },
+   lib = {
+      ["luv.so"] = "b4ef66f53d6da365111d861752b5b195"
+   },
+   ["luv-1.9.1-0.rockspec"] = "c58ad36dc59a8f23c929a74641a092e1"
+}
