@@ -42,8 +42,8 @@ pushd cmake-3.6.2
 ./bootstrap --prefix=$LOCAL
 make
 make install
-# Install moonmint
-$LOCAL/bin/luarocks install --server=http://luarocks.org/dev moonmint
+# Install luv
+$LOCAL/bin/luarocks install luv
 # Uninstall cmake (only needed for building luv).
 make uninstall
 popd
