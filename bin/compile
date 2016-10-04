@@ -3,4 +3,5 @@
 set -e
 set -o pipefail
 
-export PATH=/app/local/bin:$PATH
+mkdir -p $1/.profile.d
+echo 'export PATH=/app/local/bin:$PATH' > $1/.profile.d/luajit.sh
