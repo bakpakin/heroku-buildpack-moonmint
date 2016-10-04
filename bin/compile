@@ -11,4 +11,4 @@ echo "-----> Copying to /app/.luainstall directory..."
 cp -r $LOCALINSTALLS ${1%/}/.luarocks
 
 mkdir -p $1/.profile.d
-echo 'export PATH=/app/.luarocks/bin:$PATH' > $1/.profile.d/luajit.sh
+echo 'export PATH=/app/.luarocks/bin:$PATH && eval $(luarocks path)' > $1/.profile.d/luajit.sh
