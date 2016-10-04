@@ -5,7 +5,4 @@ cat <<EOF
 ---
 config_vars:
   PATH: /app/.luainstall/bin:/usr/local/bin:/usr/bin:/bin
-  LD_LIBRARY_PATH: /app/.luainstall/lib/luarocks/lib
-  LUA_CPATH: ./?.so;/app/.luainstall/lib/luarocks/lib/lua/5.1/?.so
-  LUA_PATH: ./?.lua;/app/.luainstall/lib/luarocks/share/lua/5.1/?.lua;/app/.luainstall/luarocks/lib/share/lua/5.1/?/init.lua
 EOF
