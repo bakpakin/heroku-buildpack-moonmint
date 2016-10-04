@@ -3,5 +3,10 @@
 set -e
 set -o pipefail
 
+# Copy everything into /opt
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo "-----> Copying to /opt directory..."
+cp -r ${DIR%/}/../local ${1%/}/opt
+
 mkdir -p $1/.profile.d
-echo 'export PATH=/app/local/bin:$PATH' > $1/.profile.d/luajit.sh
+echo 'export PATH=/opt/local/bin:$PATH' > $1/.profile.d/luajit.sh
