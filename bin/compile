@@ -26,23 +26,19 @@ cd $BUILD_DIR
 
 # Create bin and add it to the PATH
 mkdir -p bin
+mkdir -p include
 PATH=$(cd bin; pwd):$PATH
 
 # Get LuaJIT
 # Do I need sudo for install? Set up install directory?
-# if [ ! -f $CACHE_DIR/LuaJIT-2.0.4 ]; then
-    echo "-----> Fetching LuaJIT..."
-    wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
-    tar zxf LuaJIT-2.0.4.tar.gz
-    pushd LuaJIT-2.0.4
-    make amalg
-    ls
-    cp luajit $BUILD_DIR/bin
-    popd
-    rm -rf LuaJIT-2.0.4
-# else
-#     echo "-----> LuaJIT cached."
-# fi
+echo "-----> Fetching LuaJIT..."
+wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
+tar zxf LuaJIT-2.0.4.tar.gz
+pushd LuaJIT-2.0.4
+make amalg
+make install PREFIX="$BUILD_DIR"
+popd
+rm -rf LuaJIT-2.0.4
 
 # From the luarocks website
 # Do I need sudo for bootstrap? Do I need bootstrap directory?
@@ -50,9 +46,13 @@ echo "-----> Fetching luarocks..."
 wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
 tar zxpf luarocks-2.4.0.tar.gz
 pushd luarocks-2.4.0
-./configure --lua-suffix="jit" --with-lua="$BUILD_DIR/bin/luajit"
+./configure --lua-suffix="jit" --prefix="$BUILD_DIR"
 make bootstrap
 popd
+
+# Cache the files we setup
+# cp -r $BUILD_DIR/bin $CACHE_DIR/bin
+# cp -r $BUILD_DIR/include $CACHE_DIR/include
 
 # Install moonmint and openssl
 $BUILD_DIR/bin/luarocks install moonmint
