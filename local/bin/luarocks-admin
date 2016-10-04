@@ -1,5 +1,5 @@
-#!/app/.luainstall/bin/luajit
-package.path = [[/app/.luainstall/share/lua/5.1/?.lua;]]..package.path
+#!/app/.luarocks/bin/luajit
+package.path = [[/app/.luarocks/share/lua/5.1/?.lua;]]..package.path
 
 -- this should be loaded first.
 local cfg = require("luarocks.cfg")
