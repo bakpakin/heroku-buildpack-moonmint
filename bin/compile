@@ -51,6 +51,16 @@ make build
 make install
 popd
 
+# Get Cmake
+echo "-----> Fetching CMake..."
+wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
+tar zxpf cmake-3.6.2.tar.gz
+pushd cmake-3.6.2
+./bootstrap --prefix="${BUILD_DIR%/}"
+make
+make install
+popd
+
 # Cache the files we setup
 # cp -r $BUILD_DIR/bin $CACHE_DIR/bin
 # cp -r $BUILD_DIR/include $CACHE_DIR/include
