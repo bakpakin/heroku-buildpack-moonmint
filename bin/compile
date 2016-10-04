@@ -72,6 +72,4 @@ ${BUILD_DIR%/}/bin/luarocks install --server=http://luarocks.org/dev moonmint
 # Cache everything
 if [ $CACHED = no ]; then
     cp -r ${BUILD_DIR%/} ${CACHE_DIR%/}
-end
-
-# TODO: run luarocks make if there is a rockspecs file.
+fi
