@@ -4,25 +4,13 @@
 set -e
 set -o pipefail
 
-# Helper to export environment
-export_env_dir() {
-  env_dir=$1
-  whitelist_regex=${2:-''}
-  blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
-  if [ -d "$env_dir" ]; then
-    for e in $(ls $env_dir); do
-      echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
-      export "$e=$(cat $env_dir/$e)"
-      :
-    done
-  fi
-}
-
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
+CACHED=yes
 
 # Unload cache
+mkdir -p $CACHE_DIR
 cp -r ${CACHE_DIR%/} ${BUILD_DIR%/}
 
 cd $BUILD_DIR
@@ -38,6 +26,7 @@ if [ -f ${BUILD_DIR%/}/bin/luajit ]; then
     echo "-----> LuaJIT cached."
 else
     echo "-----> Fetching LuaJIT..."
+    CACHED=no
     wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
     tar zxf LuaJIT-2.0.4.tar.gz
     pushd LuaJIT-2.0.4
@@ -52,6 +41,7 @@ if [ -f ${BUILD_DIR%/}/bin/luarocks ]; then
     echo "-----> Luarocks cached."
 else
     echo "-----> Fetching luarocks..."
+    CACHED=no
     wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
     tar zxpf luarocks-2.4.0.tar.gz
     pushd luarocks-2.4.0
@@ -66,6 +56,7 @@ if [ -f ${BUILD_DIR%/}/bin/cmake ]; then
     echo "-----> CMake cached."
 else
     echo "-----> Fetching CMake..."
+    CACHED=no
     wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
     tar zxpf cmake-3.6.2.tar.gz
     pushd cmake-3.6.2
@@ -79,6 +70,8 @@ fi
 ${BUILD_DIR%/}/bin/luarocks install --server=http://luarocks.org/dev moonmint
 
 # Cache everything
-cp -r ${BUILD_DIR%/} ${CACHE_DIR%/}
+if [ $CACHED = no ]; then
+    cp -r ${BUILD_DIR%/} ${CACHE_DIR%/}
+end
 
 # TODO: run luarocks make if there is a rockspecs file.
