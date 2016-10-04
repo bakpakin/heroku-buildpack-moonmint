@@ -46,7 +46,7 @@ echo "-----> Fetching luarocks..."
 wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
 tar zxpf luarocks-2.4.0.tar.gz
 pushd luarocks-2.4.0
-./configure --lua-suffix="jit" --prefix="$BUILD_DIR"
+./configure --lua-suffix="jit" --prefix="$BUILD_DIR" --with-lua-include="$BUILD_DIR/include/luajit-2.0"
 make bootstrap
 popd
 
