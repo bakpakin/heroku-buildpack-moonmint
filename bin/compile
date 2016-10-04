@@ -22,6 +22,9 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
+# Unload cache
+cp -r ${CACHE_DIR%/} ${BUILD_DIR%/}
+
 cd $BUILD_DIR
 
 # Create bin and add it to the PATH
@@ -31,42 +34,51 @@ PATH=$(cd bin; pwd):$PATH
 
 # Get LuaJIT
 # Do I need sudo for install? Set up install directory?
-echo "-----> Fetching LuaJIT..."
-wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
-tar zxf LuaJIT-2.0.4.tar.gz
-pushd LuaJIT-2.0.4
-make
-make install PREFIX="${BUILD_DIR%/}"
-popd
-rm -rf LuaJIT-2.0.4
+if [ -f ${BUILD_DIR%/}/bin/luajit ]; then
+    echo "-----> LuaJIT cached."
+else
+    echo "-----> Fetching LuaJIT..."
+    wget http://luajit.org/download/LuaJIT-2.0.4.tar.gz
+    tar zxf LuaJIT-2.0.4.tar.gz
+    pushd LuaJIT-2.0.4
+    make
+    make install PREFIX="${BUILD_DIR%/}"
+    popd
+    rm -rf LuaJIT-2.0.4
+fi
 
 # From the luarocks website
-# Do I need sudo for bootstrap? Do I need bootstrap directory?
-echo "-----> Fetching luarocks..."
-wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
-tar zxpf luarocks-2.4.0.tar.gz
-pushd luarocks-2.4.0
-./configure --lua-suffix="jit" --prefix="${BUILD_DIR%/}" --with-lua-include="${BUILD_DIR%/}/include/luajit-2.0"
-make build
-make install
-popd
+if [ -f ${BUILD_DIR%/}/bin/luarocks ]; then
+    echo "-----> Luarocks cached."
+else
+    echo "-----> Fetching luarocks..."
+    wget http://luarocks.org/releases/luarocks-2.4.0.tar.gz
+    tar zxpf luarocks-2.4.0.tar.gz
+    pushd luarocks-2.4.0
+    ./configure --lua-suffix="jit" --prefix="${BUILD_DIR%/}" --with-lua-include="${BUILD_DIR%/}/include/luajit-2.0"
+    make build
+    make install
+    popd
+fi
 
 # Get Cmake
-echo "-----> Fetching CMake..."
-wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
-tar zxpf cmake-3.6.2.tar.gz
-pushd cmake-3.6.2
-./bootstrap --prefix="${BUILD_DIR%/}"
-make
-make install
-popd
+if [ -f ${BUILD_DIR%/}/bin/cmake ]; then
+    echo "-----> CMake cached."
+else
+    echo "-----> Fetching CMake..."
+    wget https://cmake.org/files/v3.6/cmake-3.6.2.tar.gz
+    tar zxpf cmake-3.6.2.tar.gz
+    pushd cmake-3.6.2
+    ./bootstrap --prefix="${BUILD_DIR%/}"
+    make
+    make install
+    popd
+fi
 
-# Cache the files we setup
-# cp -r $BUILD_DIR/bin $CACHE_DIR/bin
-# cp -r $BUILD_DIR/include $CACHE_DIR/include
-
-# Install moonmint and openssl
+# Install moonmint
 ${BUILD_DIR%/}/bin/luarocks install --server=http://luarocks.org/dev moonmint
-${BUILD_DIR%/}/bin/luarocks install openssl
+
+# Cache everything
+cp -r ${BUILD_DIR%/} ${CACHE_DIR%/}
 
 # TODO: run luarocks make if there is a rockspecs file.
