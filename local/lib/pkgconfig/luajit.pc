@@ -5,7 +5,7 @@ relver=4
 version=${majver}.${minver}.${relver}
 abiver=5.1
 
-prefix=/app/local
+prefix=/app/.luainstall
 multilib=lib
 exec_prefix=${prefix}
 libdir=${exec_prefix}/${multilib}
