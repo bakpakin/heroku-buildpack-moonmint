@@ -11,4 +11,4 @@ echo "-----> Copying to /app/.heroku directory..."
 cp -r $LOCALINSTALLS ${1%/}/.heroku
 
 mkdir -p $1/.profile.d
-echo 'export PATH=/app/.heroku/bin:$PATH && eval $(luarocks path)' > $1/.profile.d/luajit.sh
+echo 'export PATH=/app/.heroku/bin:$PATH && eval $(luarocks path) && luarocks install --server=http://luarocks.org/dev moonmint' > $1/.profile.d/luajit.sh
