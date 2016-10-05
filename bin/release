@@ -3,6 +3,8 @@
 
 cat <<EOF
 ---
+default_process_types:
+  web: luajit server.lua
 config_vars:
   PATH: /app/.heroku/bin:/usr/local/bin:/usr/bin:/bin
 EOF
