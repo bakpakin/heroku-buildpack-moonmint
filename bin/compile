@@ -11,8 +11,11 @@ echo "-----> Copying to /app/.heroku directory..."
 cp -r $LOCALINSTALLS ${1%/}/.heroku
 
 # Install moonmint
+rm -rf /app/.heroku
+ln -s ${1%/}/.heroku /app/.heroku
 export PATH=${1%/}/.heroku/bin:$PATH
-luarocks install --server=http://luarocks.org/dev moonmint --tree=${1%/}/.heroku
+luarocks install --server=http://luarocks.org/dev --tree=/app/.heroku moonmint
+unlink /app/.heroku
 
 mkdir -p $1/.profile.d
 echo 'export PATH=/app/.heroku/bin:$PATH && eval $(luarocks path)' > $1/.profile.d/luajit.sh
