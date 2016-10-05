@@ -3,20 +3,51 @@
 set -e
 set -o pipefail
 
+# Get the current directory this script is running from
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-LOCALINSTALLS=${DIR%/}/../heroku
+
+require () {
+    source $DIR/../lib/$1
+}
+
+require report.sh
+
+BUILD_DIR=${1%/}
+CACHE_DIR=${2%/}
+ENV_DIR=${3%/}
+
+VENDOR=$DIR/../heroku
 
 # Copy everything into /opt
-echo "-----> Copying to /app/.heroku directory..."
-cp -r $LOCALINSTALLS ${1%/}/.heroku
+info "Copying to /app/.heroku directory..."
+cp -r $VENDOR $BUILD_DIR/.heroku
+
+# Check for pre-install script
+if [ -f $BUILD_DIR/heroku-mm-preinstall ]; then
+    pushd $BUILD_DIR
+    ./heroku-mm-preinstall
+    popd
+fi
 
 # Install moonmint
+# Use symlinks to create the environment that luarocks expects, and will only be
+# valid when the slug is running
+info "Installing luarocks dependencies..."
 rm -rf /app/.heroku
-ln -s ${1%/}/.heroku /app/.heroku
-export PATH=${1%/}/.heroku/bin:$PATH
+ln -s $BUILD_DIR/.heroku /app/.heroku
+export PATH=$BUILD_DIR/.heroku/bin:$PATH
 # TODO: install dynamic dependcies here.
 #luarocks install --server=http://luarocks.org/dev --tree=/app/.heroku moonmint
 unlink /app/.heroku
 
-mkdir -p $1/.profile.d
-echo 'export PATH=/app/.heroku/bin:$PATH && eval $(luarocks path)' > $1/.profile.d/luajit.sh
+# Create profile.d start up scripts
+info "Creating profile scripts..."
+mkdir -p $BUILD_DIR/.profile.d
+cp -r $DIR/../profile/* $BUILD_DIR/.profile.d
+
+# Check for post-install script
+if [ -f $BUILD_DIR/heroku-mm-postinstall ]; then
+    pushd $BUILD_DIR
+    ./heroku-mm-postinstall
+    popd
+fi

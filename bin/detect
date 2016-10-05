@@ -1,4 +1,4 @@
 #!/bin/sh
 
-echo "lua-moonmint"
+echo "LuaJIT-moonmint"
 exit 0
