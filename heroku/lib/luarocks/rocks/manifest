@@ -1,7 +1,28 @@
 commands = {}
 dependencies = {
+   bit32 = {
+      ["scm-2"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<=",
+                  version = {
+                     5, 3, string = "5.3"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
    luv = {
-      ["1.9.1-0"] = {
+      ["1.8.0-4"] = {
          {
             constraints = {
                {
@@ -14,22 +35,207 @@ dependencies = {
             name = "lua"
          }
       }
+   },
+   mimetypes = {
+      ["1.0.0-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   moonmint = {
+      ["scm-5"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               }
+            },
+            name = "lua"
+         },
+         {
+            constraints = {
+               {
+                  op = "~>",
+                  version = {
+                     1, 8, string = "1.8"
+                  }
+               }
+            },
+            name = "luv"
+         },
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     1, 0, string = "1.0"
+                  }
+               }
+            },
+            name = "mimetypes"
+         },
+         {
+            constraints = {},
+            name = "bit32"
+         }
+      }
    }
 }
 modules = {
+   bit32 = {
+      "bit32/scm-2"
+   },
    luv = {
-      "luv/1.9.1-0"
+      "luv/1.8.0-4"
+   },
+   mimetypes = {
+      "mimetypes/1.0.0-1"
+   },
+   moonmint = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.agent"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.cookie"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.deps.coro-wrapper"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.deps.http-headers"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.deps.httpCodec"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.deps.pathjoin"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.deps.secure-socket"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.deps.secure-socket.biowrap"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.deps.secure-socket.context"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.deps.secure-socket.root_ca"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.deps.stream-wrap"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.fs"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.html"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.response"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.router"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.server"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.static"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.template"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.url"] = {
+      "moonmint/scm-5"
+   },
+   ["moonmint.util"] = {
+      "moonmint/scm-5"
    }
 }
 repository = {
+   bit32 = {
+      ["scm-2"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               bit32 = "bit32.so"
+            }
+         }
+      }
+   },
    luv = {
-      ["1.9.1-0"] = {
+      ["1.8.0-4"] = {
          {
             arch = "installed",
             commands = {},
             dependencies = {},
             modules = {
                luv = "luv.so"
+            }
+         }
+      }
+   },
+   mimetypes = {
+      ["1.0.0-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               mimetypes = "mimetypes.lua"
+            }
+         }
+      }
+   },
+   moonmint = {
+      ["scm-5"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {
+               bit32 = "scm-2",
+               luv = "1.8.0-4",
+               mimetypes = "1.0.0-1"
+            },
+            modules = {
+               moonmint = "moonmint/init.lua",
+               ["moonmint.agent"] = "moonmint/agent.lua",
+               ["moonmint.cookie"] = "moonmint/cookie.lua",
+               ["moonmint.deps.coro-wrapper"] = "moonmint/deps/coro-wrapper.lua",
+               ["moonmint.deps.http-headers"] = "moonmint/deps/http-headers.lua",
+               ["moonmint.deps.httpCodec"] = "moonmint/deps/httpCodec.lua",
+               ["moonmint.deps.pathjoin"] = "moonmint/deps/pathjoin.lua",
+               ["moonmint.deps.secure-socket"] = "moonmint/deps/secure-socket/init.lua",
+               ["moonmint.deps.secure-socket.biowrap"] = "moonmint/deps/secure-socket/biowrap.lua",
+               ["moonmint.deps.secure-socket.context"] = "moonmint/deps/secure-socket/context.lua",
+               ["moonmint.deps.secure-socket.root_ca"] = "moonmint/deps/secure-socket/root_ca.lua",
+               ["moonmint.deps.stream-wrap"] = "moonmint/deps/stream-wrap.lua",
+               ["moonmint.fs"] = "moonmint/fs.lua",
+               ["moonmint.html"] = "moonmint/html.lua",
+               ["moonmint.response"] = "moonmint/response.lua",
+               ["moonmint.router"] = "moonmint/router.lua",
+               ["moonmint.server"] = "moonmint/server.lua",
+               ["moonmint.static"] = "moonmint/static.lua",
+               ["moonmint.template"] = "moonmint/template.lua",
+               ["moonmint.url"] = "moonmint/url.lua",
+               ["moonmint.util"] = "moonmint/util.lua"
             }
          }
       }

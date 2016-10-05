@@ -14,7 +14,8 @@ cp -r $LOCALINSTALLS ${1%/}/.heroku
 rm -rf /app/.heroku
 ln -s ${1%/}/.heroku /app/.heroku
 export PATH=${1%/}/.heroku/bin:$PATH
-luarocks install --server=http://luarocks.org/dev --tree=/app/.heroku moonmint
+# TODO: install dynamic dependcies here.
+#luarocks install --server=http://luarocks.org/dev --tree=/app/.heroku moonmint
 unlink /app/.heroku
 
 mkdir -p $1/.profile.d

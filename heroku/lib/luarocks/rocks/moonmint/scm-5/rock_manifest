@@ -1,0 +1,37 @@
+rock_manifest = {
+   doc = {
+      ["LICENSE.txt"] = "aac9666466e3ee3a90dc918d0906f5ac",
+      ["README.md"] = "eedc12d9b59ee6aebc7afec1548e0f8f",
+      ["TODO.md"] = "0f899af40c52172d2bb41633f6d454fd"
+   },
+   lua = {
+      moonmint = {
+         ["agent.lua"] = "2086913ce38c8e225a613017c1230518",
+         ["cookie.lua"] = "84579e0512777190ed7c096e14f3629e",
+         deps = {
+            ["coro-wrapper.lua"] = "07e2c9eace76d23c104d55f13c770fe4",
+            ["http-headers.lua"] = "643919715e8c11cc1db001185f83a25b",
+            ["httpCodec.lua"] = "e1f460a9dbfe9fdad19ca20f472a5ff2",
+            ["pathjoin.lua"] = "9b794c9c4f84add0d2387accd9d0ef79",
+            ["secure-socket"] = {
+               ["biowrap.lua"] = "9e7d43edd6aa196856a13a41e705a286",
+               ["context.lua"] = "ee09ee515b2e7292413a39af83d25cee",
+               ["init.lua"] = "d4d105147279ed278c992afbbd2d1f61",
+               ["root_ca.lua"] = "1b6555d2debc0d1787a9da1067037e6e"
+            },
+            ["stream-wrap.lua"] = "06fc665b0811de9dd9a68286d4a9da53"
+         },
+         ["fs.lua"] = "09f582fec75c994315ab272a5f7b83f7",
+         ["html.lua"] = "b86f013d005325f0d1f29dbebdcbc9dc",
+         ["init.lua"] = "25954912d8d1c02b07b0deaae1417ca9",
+         ["response.lua"] = "ad0a161e590a37a0e1663c3ee1eda728",
+         ["router.lua"] = "885baecca75177f7ab542a8a6ad504ee",
+         ["server.lua"] = "731a9cc7cb0f3d389bb332711fea16c7",
+         ["static.lua"] = "7c4e39e5ebfd08914eed12be89cd045d",
+         ["template.lua"] = "73a38929fca2b641ca9624c7b52713f7",
+         ["url.lua"] = "9b7ed8a747cf385c30ac247d88ff877b",
+         ["util.lua"] = "5b1084e45269c19a60910ce8eabd8e79"
+      }
+   },
+   ["moonmint-scm-5.rockspec"] = "d5a56f26f937d18fd17337c4d5d10b0c"
+}

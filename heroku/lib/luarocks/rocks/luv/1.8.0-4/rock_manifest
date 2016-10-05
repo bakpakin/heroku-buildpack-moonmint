@@ -5,7 +5,7 @@ rock_manifest = {
       ["docs.md"] = "fb5b890da619f584b9ec290b830e0dcc"
    },
    lib = {
-      ["luv.so"] = "b4ef66f53d6da365111d861752b5b195"
+      ["luv.so"] = "b343859fe1dd58e625463a000e38b60f"
    },
-   ["luv-1.9.1-0.rockspec"] = "c58ad36dc59a8f23c929a74641a092e1"
+   ["luv-1.8.0-4.rockspec"] = "f80a27dfc1668f50bc8b327b76848659"
 }
