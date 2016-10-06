@@ -37,13 +37,13 @@ fi
 # Install dependencies
 # Use symlinks to create the environment that luarocks expects, and will only be
 # valid when the slug is running
-ROCKSPEC=( $BUILD_DIR/*.rockspec )
+ROCKSPEC=(`find ./ -maxdepth 1 -name "*.rockspec"`)
 if [ "${#ROCKSPEC[@]}" -gt 0 ]; then
     info "Installing luarocks dependencies..."
     rm -rf /app/.heroku
     ln -s $BUILD_DIR/.heroku /app/.heroku
     export PATH=$BUILD_DIR/.heroku/bin:$PATH
-    luarocks build --only-deps $ROCKSPEC
+    luarocks build --only-deps ${ROCKSPEC[0]}
     unlink /app/.heroku
 else
     info "No rockspec found."
