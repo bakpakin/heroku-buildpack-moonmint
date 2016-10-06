@@ -34,7 +34,9 @@ You now have a functional website and a server. Push to heroku and view your dep
 This buildpack sets up LuaJIT and Luarocks and configures the relevant environment
 variables for easy usage, but makes very few asumptions about your build setup.
 It places the necesarry files (luajit, luarocks, cmake) in the `.heroku` directroy
-of the generated slug (`/app/.heroku`).
+of the generated slug (`/app/.heroku`). It comes with some preinstalled rocks -
+moonmint, and openssl, mostly because they are binary rocks and are available only
+on the dev server.
 
 You can also add pre and post install scripts in the root of your project. These should
 just be executable files called `heroku-mm-preinstall` and `heroku-mm-postinstall`
@@ -59,6 +61,47 @@ luarocks build rockspecs/myrockspec.rockspec
 ```
 
 Note that because CMake is bundled, you can install rocks that need CMake to build (like luv).
+
+## Forking this for a more generic (or specialized buildpack)
+
+It is pretty easy to modify this buildpack to pre-install your own rocks, or to
+remove the rocks that have been preinstalled. Simply fork this buildpack and
+create a simple heroku application using your fork. You can push a dud application first. Then:
+
+```bash
+# SSH into a deployed slug.
+heroku run bash
+
+# In the slug, remove the packages you don't need and install those you do.
+# You can also uninstall cmake from the .heroku directory, or install other things there.
+luarocks remove moonmint
+luarocks remove openssl
+luarocks install luasec
+
+# Now create a tarball of the entire .heroku directory
+tar -czvf heroku.tar.gz .heroku
+
+# Upload this file somewhere so you can save it later.
+curl --upload-file heroku.tar.gz https://transfer.sh/heroku.tar.gz
+# Transfer.sh should give back a url like https://transfer.sh/TN64/heroku.tar.gz
+
+# You're done on the slug.
+exit
+```
+
+Now cd into the git repository of your forked buildpack. From there, replace the heroku
+directory with the one we just compressed and uploaded. You will need to donwload it from
+wherever you uploaded it.
+
+```bash
+# The actually URL will be different!
+wget https://transfer.sh/TN64/heroku.tar.gz
+tar -xzvf heroku.tar.gz
+rm -rf heroku
+mv .heroku heroku
+```
+
+Commit and push the changes you made.
 
 ## TODO
 
