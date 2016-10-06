@@ -22,6 +22,11 @@ VENDOR=$DIR/../heroku
 info "Copying to /app/.heroku directory..."
 cp -r $VENDOR $BUILD_DIR/.heroku
 
+# Create profile.d start up scripts
+info "Creating profile scripts..."
+mkdir -p $BUILD_DIR/.profile.d
+cp -r $DIR/../profile/* $BUILD_DIR/.profile.d
+
 # Check for pre-install script
 if [ -f $BUILD_DIR/heroku-mm-preinstall ]; then
     pushd $BUILD_DIR
@@ -29,21 +34,20 @@ if [ -f $BUILD_DIR/heroku-mm-preinstall ]; then
     popd
 fi
 
-# Install moonmint
+# Install dependencies
 # Use symlinks to create the environment that luarocks expects, and will only be
 # valid when the slug is running
-info "Installing luarocks dependencies..."
-rm -rf /app/.heroku
-ln -s $BUILD_DIR/.heroku /app/.heroku
-export PATH=$BUILD_DIR/.heroku/bin:$PATH
-# TODO: install dynamic dependcies here.
-#luarocks install --server=http://luarocks.org/dev --tree=/app/.heroku moonmint
-unlink /app/.heroku
-
-# Create profile.d start up scripts
-info "Creating profile scripts..."
-mkdir -p $BUILD_DIR/.profile.d
-cp -r $DIR/../profile/* $BUILD_DIR/.profile.d
+ROCKSPEC=( $BUILD_DIR/*.rockspec )
+if [ "${ROCKSPEC[@]}" -gt 0 ]; then
+    info "Installing luarocks dependencies..."
+    rm -rf /app/.heroku
+    ln -s $BUILD_DIR/.heroku /app/.heroku
+    export PATH=$BUILD_DIR/.heroku/bin:$PATH
+    luarocks build --only-deps $ROCKSPEC
+    unlink /app/.heroku
+else
+    info "No rockspec found."
+fi
 
 # Check for post-install script
 if [ -f $BUILD_DIR/heroku-mm-postinstall ]; then
