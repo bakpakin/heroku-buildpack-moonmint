@@ -91,6 +91,27 @@ dependencies = {
             name = "bit32"
          }
       }
+   },
+   openssl = {
+      ["scm-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<",
+                  version = {
+                     5, 4, string = "5.4"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
    }
 }
 modules = {
@@ -165,6 +186,9 @@ modules = {
    },
    ["moonmint.util"] = {
       "moonmint/scm-5"
+   },
+   openssl = {
+      "openssl/scm-1"
    }
 }
 repository = {
@@ -236,6 +260,18 @@ repository = {
                ["moonmint.template"] = "moonmint/template.lua",
                ["moonmint.url"] = "moonmint/url.lua",
                ["moonmint.util"] = "moonmint/util.lua"
+            }
+         }
+      }
+   },
+   openssl = {
+      ["scm-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               openssl = "openssl.so"
             }
          }
       }

@@ -38,7 +38,7 @@ fi
 # Use symlinks to create the environment that luarocks expects, and will only be
 # valid when the slug is running
 ROCKSPEC=( $BUILD_DIR/*.rockspec )
-if [ "${ROCKSPEC[@]}" -gt 0 ]; then
+if [ "${#ROCKSPEC[@]}" -gt 0 ]; then
     info "Installing luarocks dependencies..."
     rm -rf /app/.heroku
     ln -s $BUILD_DIR/.heroku /app/.heroku

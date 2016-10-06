@@ -1,0 +1,11 @@
+rock_manifest = {
+   doc = {
+      LICENSE = "812b618ca15555178643425a6ee34a6d",
+      ["README.md"] = "e740b3ce9bf9d4e2e1f75ef6c82502d4",
+      ["STATE.md"] = "6a70355a15f0e88f8208677824819ce6"
+   },
+   lib = {
+      ["openssl.so"] = "c21a7aa26898f535afec342795929add"
+   },
+   ["openssl-scm-1.rockspec"] = "dbc1343e5f0f96dd81733c3be48d6aa7"
+}
